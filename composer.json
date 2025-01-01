@@ -1,14 +1,15 @@
 {
     "name": "yahya/dev-to-blogging-plateform",
-    "description": "A simple blogging plateform project",
+    "description": "A simple blogging platform project",
     "autoload": {
         "psr-4": {
-            "Yahya\\DevToBloggingPlateform\\": "src/"
+            "config\\": "config/",
+            "Src\\": "src/"
         }
     },
     "authors": [
         {
-            "name": "Yahya afadisse",
+            "name": "Yahya Afadisse",
             "email": "yahyaafadisse92@gmail.com"
         }
     ],

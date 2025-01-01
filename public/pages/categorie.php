@@ -126,10 +126,32 @@
     
         <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
             <main class="w-full flex-grow p-6">
-               
+                <div class="bg-gray-800 shadow-lg rounded-lg w-full max-w-2xl mx-auto p-8">
+                    <h1 class="text-2xl font-bold text-gray-100 mb-6">Add Category</h1>
+                    <form action="../../src/categories/categorieHandler.php" method="POST" class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-400">Category Name</label>
+                            <input 
+                                type="text" 
+                                id="name" 
+                                name="name" 
+                                class="w-full mt-1 p-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-md focus:ring focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
+                                placeholder="Enter category name" 
+                                required
+                            />
+                        </div>
+                        <div>
+                            <button 
+                                type="submit" 
+                                class="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:ring focus:ring-blue-500"
+                            >
+                                Save Category
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </main>
         </div>
-
 
             <footer class="w-full bg-white text-right p-4">
                 Built by <a target="_blank" href="https://www.linkedin.com/in/yahya-afadisse-236b022a9/" class="underline">Yahya Afadisse</a>.

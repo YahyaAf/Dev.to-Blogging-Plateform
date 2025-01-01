@@ -1,5 +1,7 @@
 <?php
 
+namespace Src\Crud;
+
 class CRUD {
     private $conn;
     private $table_name;

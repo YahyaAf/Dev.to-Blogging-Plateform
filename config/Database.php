@@ -1,4 +1,7 @@
 <?php
+namespace config;
+
+use PDO; 
 
 class Database {
     private $host = "localhost";
@@ -24,5 +27,4 @@ class Database {
         return $this->conn;
     }
 }
-
 ?>
