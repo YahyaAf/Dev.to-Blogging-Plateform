@@ -1,5 +1,4 @@
 <?php
-
 namespace Src\categories;
 
 use Src\Crud\CRUD;
@@ -13,6 +12,7 @@ class Category {
     public function __construct($db) {
         $this->crud = new CRUD($db, "categories"); 
     }
+
 
     public function create() {
         $this->crud->fields = [

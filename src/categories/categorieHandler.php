@@ -1,14 +1,14 @@
 <?php
-require_once '../../vendor/autoload.php'; 
+require_once  __DIR__.'/../../vendor/autoload.php'; 
 use config\Database;
-use Src\categories\Categorie;
+use Src\categories\Category;
 
 
 $database = new Database("dev_blog");  
 $db = $database->getConnection();
 
 
-$category = new Categorie($db);
+$category = new Category($db);
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
