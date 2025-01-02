@@ -1,3 +1,15 @@
+<?php
+    require_once __DIR__ . '/../../vendor/autoload.php';
+    use config\Database;
+    use Src\categories\Category;
+
+    $database = new Database("dev_blog");
+    $db = $database->getConnection();
+
+    $category = new Category($db);
+
+    $categories = $category->read();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -151,6 +163,35 @@
                     </form>
                 </div>
             </main>
+        </div>
+        <!-- Category List Table -->
+        <h2 class="text-xl font-semibold mb-4 text-center">Category List :</h2>
+        <div>
+            <table class="w-full table-auto bg-gray-700 rounded-md shadow-md">
+                <thead>
+                    <tr class="bg-gray-600">
+                        <th class="px-4 py-2 text-left">Name</th>
+                        <th class="px-4 py-2 text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if ($categories) {
+                        foreach ($categories as $cat) {
+                            echo "<tr class='border-t border-gray-600'>
+                                    <td class='px-4 py-2'>{$cat['name']}</td>
+                                    <td class='px-4 py-2'>
+                                        <a href='updateCategory.php?id={$cat['id']}' class='text-yellow-500 hover:text-yellow-300 mr-2'>Update</a>
+                                        <a href='deleteCategory.php?id={$cat['id']}' class='text-red-500 hover:text-red-300'>Delete</a>
+                                    </td>
+                                </tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='3' class='px-4 py-2 text-center'>No categories found.</td></tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
         </div>
 
             <footer class="w-full bg-white text-right p-4">
