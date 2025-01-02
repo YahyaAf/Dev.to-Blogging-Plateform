@@ -181,8 +181,8 @@
                             echo "<tr class='border-t border-gray-600'>
                                     <td class='px-4 py-2'>{$cat['name']}</td>
                                     <td class='px-4 py-2'>
-                                        <a href='updateCategory.php?id={$cat['id']}' class='text-yellow-500 hover:text-yellow-300 mr-2'>Update</a>
-                                        <a href='deleteCategory.php?id={$cat['id']}' class='text-red-500 hover:text-red-300'>Delete</a>
+                                        <a href='../../src/categories/categorieHandler.php?id={$cat['id']}' class='text-yellow-500 hover:text-yellow-300 mr-2'>Update</a>
+                                        <a href='../../src/categories/categorieHandler.php?id={$cat['id']}' class='text-red-500 hover:text-red-300'>Delete</a>
                                     </td>
                                 </tr>";
                         }
