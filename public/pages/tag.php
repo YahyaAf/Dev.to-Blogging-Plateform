@@ -181,7 +181,7 @@
                             echo "<tr class='border-t border-gray-600'>
                                     <td class='px-4 py-2'>{$tag['name']}</td>
                                     <td class='px-4 py-2'>
-                                        <a href='../../src/categories/categorieUpdate.php?id={$tag['id']}' class='text-yellow-500 hover:text-yellow-300 mr-2'>Update</a>
+                                        <a href='../../src/tags/tagUpdate.php?id={$tag['id']}' class='text-yellow-500 hover:text-yellow-300 mr-2'>Update</a>
                                         <a href='../../src/tags/tagHandler.php?id={$tag['id']}' class='text-red-500 hover:text-red-300'>Delete</a>
                                     </td>
                                 </tr>";
