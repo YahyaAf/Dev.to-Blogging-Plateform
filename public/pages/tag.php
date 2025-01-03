@@ -1,3 +1,15 @@
+<?php
+    require_once __DIR__ . '/../../vendor/autoload.php';
+    use config\Database;
+    use Src\tags\Tag;
+
+    $database = new Database("dev_blog");
+    $db = $database->getConnection();
+
+    $tag = new Tag($db);
+
+    $tags = $tag->read();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -151,6 +163,35 @@
                     </form>
                 </div>
             </main>
+        </div>
+        <!-- tags List Table -->
+        <h2 class="text-xl font-semibold mb-4 text-center">Tags List :</h2>
+        <div>
+            <table class="w-full table-auto bg-gray-700 rounded-md shadow-md">
+                <thead>
+                    <tr class="bg-gray-600">
+                        <th class="px-4 py-2 text-left">Name</th>
+                        <th class="px-4 py-2 text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if ($tags) {
+                        foreach ($tags as $tag) {
+                            echo "<tr class='border-t border-gray-600'>
+                                    <td class='px-4 py-2'>{$tag['name']}</td>
+                                    <td class='px-4 py-2'>
+                                        <a href='../../src/categories/categorieUpdate.php?id={$tag['id']}' class='text-yellow-500 hover:text-yellow-300 mr-2'>Update</a>
+                                        <a href='../../src/tags/tagHandler.php?id={$tag['id']}' class='text-red-500 hover:text-red-300'>Delete</a>
+                                    </td>
+                                </tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='3' class='px-4 py-2 text-center'>No categories found.</td></tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
         </div>
         <footer class="w-full bg-white text-right p-4">
             Built by <a target="_blank" href="https://www.linkedin.com/in/yahya-afadisse-236b022a9/" class="underline">Yahya Afadisse</a>.
