@@ -135,67 +135,64 @@
                 <i class="fas fa-plus mr-3"></i> New Report
             </button> -->
         </header>
-    
         <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
-            <main class="w-full flex-grow p-6">
-                <div class="bg-gray-800 shadow-lg rounded-lg w-full max-w-2xl mx-auto p-8">
-                    <h1 class="text-2xl font-bold text-gray-100 mb-6">Add Tags</h1>
-                    <form action="../../src/tags/tagHandler.php" method="POST" class="space-y-6">
-                        <div>
-                            <label for="name" class="block text-sm font-medium text-gray-400">Tag Name</label>
-                            <input 
-                                type="text" 
-                                id="name" 
-                                name="name" 
-                                class="w-full mt-1 p-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-md focus:ring focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-                                placeholder="Enter tag name" 
-                                required
-                            />
-                        </div>
-                        <div>
-                            <button 
-                                type="submit" 
-                                class="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:ring focus:ring-blue-500"
-                            >
-                                Save Tag
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </main>
-        </div>
-        <!-- tags List Table -->
-        <h2 class="text-xl font-semibold mb-4 text-center">Tags List :</h2>
-        <div>
-            <table class="w-full table-auto bg-gray-700 rounded-md shadow-md">
-                <thead>
-                    <tr class="bg-gray-600">
-                        <th class="px-4 py-2 text-left">Name</th>
-                        <th class="px-4 py-2 text-left">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    if ($tags) {
-                        foreach ($tags as $tag) {
-                            echo "<tr class='border-t border-gray-600'>
-                                    <td class='px-4 py-2'>{$tag['name']}</td>
-                                    <td class='px-4 py-2'>
-                                        <a href='../../src/tags/tagUpdate.php?id={$tag['id']}' class='text-yellow-500 hover:text-yellow-300 mr-2'>Update</a>
-                                        <a href='../../src/tags/tagHandler.php?id={$tag['id']}' class='text-red-500 hover:text-red-300'>Delete</a>
-                                    </td>
-                                </tr>";
+                <main class="w-full flex-grow p-6">
+                    <div class="bg-gray-800 shadow-lg rounded-lg w-full max-w-2xl mx-auto p-8">
+                        <h1 class="text-2xl font-bold text-gray-100 mb-6">Add Tags</h1>
+                        <form action="../../src/tags/tagHandler.php" method="POST" class="space-y-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-400">Tag Name</label>
+                                <input 
+                                    type="text" 
+                                    id="name" 
+                                    name="name" 
+                                    class="w-full mt-1 p-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-md focus:ring focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
+                                    placeholder="Enter tag name" 
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <button 
+                                    type="submit" 
+                                    class="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:ring focus:ring-blue-500"
+                                >
+                                    Save Tag
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </main>
+            <!-- tags List Table -->
+            <h2 class="text-xl font-semibold mb-4 text-center">Tags List :</h2>
+                <table class="w-full table-auto bg-gray-700 rounded-md shadow-md">
+                    <thead>
+                        <tr class="bg-gray-600">
+                            <th class="px-4 py-2 text-left">Name</th>
+                            <th class="px-4 py-2 text-left">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if ($tags) {
+                            foreach ($tags as $tag) {
+                                echo "<tr class='border-t border-gray-600'>
+                                        <td class='px-4 py-2'>{$tag['name']}</td>
+                                        <td class='px-4 py-2'>
+                                            <a href='../../src/tags/tagUpdate.php?id={$tag['id']}' class='text-yellow-500 hover:text-yellow-300 mr-2'>Update</a>
+                                            <a href='../../src/tags/tagHandler.php?id={$tag['id']}' class='text-red-500 hover:text-red-300'>Delete</a>
+                                        </td>
+                                    </tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='3' class='px-4 py-2 text-center'>No categories found.</td></tr>";
                         }
-                    } else {
-                        echo "<tr><td colspan='3' class='px-4 py-2 text-center'>No categories found.</td></tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
-        <footer class="w-full bg-white text-right p-4">
-            Built by <a target="_blank" href="https://www.linkedin.com/in/yahya-afadisse-236b022a9/" class="underline">Yahya Afadisse</a>.
-        </footer>
+                        ?>
+                    </tbody>
+                </table>
+
+            <footer class="w-full bg-white text-right p-4">
+                Built by <a target="_blank" href="https://www.linkedin.com/in/yahya-afadisse-236b022a9/" class="underline">Yahya Afadisse</a>.
+            </footer>
         </div>
 
     <!-- AlpineJS -->

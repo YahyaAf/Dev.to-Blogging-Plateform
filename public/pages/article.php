@@ -128,7 +128,6 @@
             <main class="w-full flex-grow p-6">
                
             </main>
-        </div>
 
 
             <footer class="w-full bg-white text-right p-4">

@@ -163,10 +163,8 @@
                     </form>
                 </div>
             </main>
-        </div>
-        <!-- Category List Table -->
-        <h2 class="text-xl font-semibold mb-4 text-center">Category List :</h2>
-        <div>
+            <!-- Category List Table -->
+            <h2 class="text-xl font-semibold mb-4 text-center">Category List :</h2>
             <table class="w-full table-auto bg-gray-700 rounded-md shadow-md">
                 <thead>
                     <tr class="bg-gray-600">
@@ -192,7 +190,7 @@
                     ?>
                 </tbody>
             </table>
-        </div>
+
 
             <footer class="w-full bg-white text-right p-4">
                 Built by <a target="_blank" href="https://www.linkedin.com/in/yahya-afadisse-236b022a9/" class="underline">Yahya Afadisse</a>.
