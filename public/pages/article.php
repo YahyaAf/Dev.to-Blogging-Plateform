@@ -1,3 +1,15 @@
+<?php
+    require_once __DIR__ . '/../../vendor/autoload.php';
+    use config\Database;
+    use Src\categories\Category;
+
+    $database = new Database("dev_blog");
+    $db = $database->getConnection();
+
+    $category = new Category($db);
+
+    $categories = $category->read();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -125,11 +137,128 @@
         </header>
     
         <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
-            <main class="w-full flex-grow p-6">
-               
-            </main>
+            <div class="bg-gray-800 shadow-lg rounded-lg w-full max-w-2xl mx-auto p-8">
+                <main class="w-full flex-grow p-6">
+                    <h1 class="text-2xl font-bold text-gray-100 mb-6">Create Article</h1>
+                    <form action="#" method="POST" enctype="multipart/form-data" class="space-y-6">
+                        <!-- Title -->
+                        <div>
+                            <label for="title" class="block text-sm font-medium text-gray-400">Title</label>
+                            <input 
+                                type="text" 
+                                id="title" 
+                                name="title" 
+                                class="w-full mt-1 p-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-md focus:ring focus:ring-blue-500 focus:border-blue-500 focus:outline-none" 
+                                placeholder="Enter title" 
+                                required
+                            />
+                        </div>
 
+                        <!-- Content -->
+                        <div>
+                            <label for="content" class="block text-sm font-medium text-gray-400">Content</label>
+                            <textarea 
+                                id="content" 
+                                name="content" 
+                                class="w-full mt-1 p-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-md focus:ring focus:ring-blue-500 focus:border-blue-500 focus:outline-none" 
+                                placeholder="Enter content" 
+                                rows="5"
+                                required
+                            ></textarea>
+                        </div>
 
+                        <!-- Excerpt -->
+                        <div>
+                            <label for="excerpt" class="block text-sm font-medium text-gray-400">Excerpt</label>
+                            <textarea 
+                                id="excerpt" 
+                                name="excerpt" 
+                                class="w-full mt-1 p-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-md focus:ring focus:ring-blue-500 focus:border-blue-500 focus:outline-none" 
+                                placeholder="Enter excerpt" 
+                                rows="2"
+                            ></textarea>
+                        </div>
+
+                        <!-- Meta Description -->
+                        <div>
+                            <label for="meta_description" class="block text-sm font-medium text-gray-400">Meta Description</label>
+                            <textarea 
+                                id="meta_description" 
+                                name="meta_description" 
+                                class="w-full mt-1 p-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-md focus:ring focus:ring-blue-500 focus:border-blue-500 focus:outline-none" 
+                                placeholder="Enter meta description" 
+                                rows="2"
+                            ></textarea>
+                        </div>
+
+                        <!-- Featured Image -->
+                        <div>
+                            <label for="featured_image" class="block text-sm font-medium text-gray-400">Featured Image</label>
+                            <input 
+                                type="file" 
+                                id="featured_image" 
+                                name="featured_image" 
+                                class="w-full mt-1 p-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-md focus:ring focus:ring-blue-500 focus:border-blue-500 focus:outline-none" 
+                            />
+                        </div>
+
+                        <!-- Status -->
+                        <div>
+                            <label for="status" class="block text-sm font-medium text-gray-400">Status</label>
+                            <select 
+                                id="status" 
+                                name="status" 
+                                class="w-full mt-1 p-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-md focus:ring focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
+                                required
+                            >
+                                <option value="draft">Draft</option>
+                                <option value="published">Published</option>
+                                <option value="scheduled">scheduled</option>
+                            </select>
+                        </div>
+
+                        <!-- categorie  -->
+                        <div>
+                            <label for="categorie" class="block text-sm font-medium text-gray-400">Categorie</label>
+                            <select 
+                                id="categorie" 
+                                name="categorie" 
+                                class="w-full mt-1 p-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-md focus:ring focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
+                                required
+                            >
+                            <option value="">--Please choose an categorie--</option>
+                            <?php foreach ($categories as $cat): ?>
+                                <option value="<?php echo htmlspecialchars($cat['name']); ?>">
+                                    <?php echo htmlspecialchars($cat['name']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                                
+                            </select>
+                        </div>
+
+                        <!-- Scheduled Date -->
+                        <div>
+                            <label for="scheduled_date" class="block text-sm font-medium text-gray-400">Scheduled Date</label>
+                            <input 
+                                type="datetime-local" 
+                                id="scheduled_date" 
+                                name="scheduled_date" 
+                                class="w-full mt-1 p-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-md focus:ring focus:ring-blue-500 focus:border-blue-500 focus:outline-none" 
+                            />
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div>
+                            <button 
+                                type="submit" 
+                                class="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:ring focus:ring-blue-500"
+                            >
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </main>
+            </div>
             <footer class="w-full bg-white text-right p-4">
                 Built by <a target="_blank" href="https://www.linkedin.com/in/yahya-afadisse-236b022a9/" class="underline">Yahya Afadisse</a>.
             </footer>
