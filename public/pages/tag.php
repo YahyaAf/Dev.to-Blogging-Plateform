@@ -128,7 +128,7 @@
             <main class="w-full flex-grow p-6">
                 <div class="bg-gray-800 shadow-lg rounded-lg w-full max-w-2xl mx-auto p-8">
                     <h1 class="text-2xl font-bold text-gray-100 mb-6">Add Tags</h1>
-                    <form action="../../src/categories/categorieHandler.php" method="POST" class="space-y-6">
+                    <form action="../../src/tags/tagHandler.php" method="POST" class="space-y-6">
                         <div>
                             <label for="name" class="block text-sm font-medium text-gray-400">Tag Name</label>
                             <input 
