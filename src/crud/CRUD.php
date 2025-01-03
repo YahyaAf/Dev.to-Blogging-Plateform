@@ -1,6 +1,7 @@
 <?php
 
 namespace Src\Crud;
+use PDO; 
 
 class CRUD {
     private $conn;
