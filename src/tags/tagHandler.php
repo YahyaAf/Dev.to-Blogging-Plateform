@@ -27,6 +27,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     echo "Invalid request method.";
 }
 
+// delete un tag
+if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET['id'])) {
+    $tag_id = $_GET['id'];
+
+    if (!empty($tag_id)) {
+        $tag->id = $tag_id;
+        if ($tag->delete()) {
+            header("Location: ../../public/pages/tag.php");
+            exit();
+        } else {
+            echo "Failed to delete tag.";
+        }
+    } else {
+        echo "Invalid tag ID.";
+    }
+}
+
 
 
 
