@@ -33,7 +33,7 @@ class CRUD {
 
  
     public function read() {
-        $query = "SELECT * FROM " . $this->table_name;
+        $query = "SELECT * FROM " . $this->table_name." ORDER BY id";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
