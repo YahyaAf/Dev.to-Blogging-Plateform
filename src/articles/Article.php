@@ -67,20 +67,23 @@ class Article {
     public function read($id) {
         try {
             $stmt = $this->pdo->prepare("
-                SELECT a.*, c.name AS category_name, u.username AS author_name
+                SELECT 
+                    a.*, 
+                    c.name AS category_name, 
+                    u.username AS author_name, 
+                    GROUP_CONCAT(t.name) AS tags
                 FROM articles a
-                JOIN categories c ON a.category_id = c.id
-                JOIN users u ON a.author_id = u.id
+                LEFT JOIN categories c ON a.category_id = c.id
+                LEFT JOIN users u ON a.author_id = u.id
+                LEFT JOIN article_tags at ON a.id = at.article_id
+                LEFT JOIN tags t ON at.tag_id = t.id
                 WHERE a.id = :id
+                GROUP BY a.id
             ");
             $stmt->execute(['id' => $id]);
             $article = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($article) {
-                $article['tags'] = $this->getTags($id);
-            }
-
-            return $article;
+    
+            return $article ?: null; // Return null if no article is found
         } catch (PDOException $e) {
             error_log("Erreur lors de la récupération de l'article : " . $e->getMessage());
             return null;
