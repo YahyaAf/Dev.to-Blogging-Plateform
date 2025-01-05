@@ -57,9 +57,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['title'], $_POST['cont
     $category_id = htmlspecialchars(strip_tags($_POST['categorie']));
     $scheduled_date = $_POST['scheduled_date'] ?? null;
 
-    $featured_image = isset($_FILES['featured_image']) && $_FILES['featured_image']['error'] === UPLOAD_ERR_OK
-        ? uploadImage($_FILES['featured_image'])
-        : $current_featured_image;
+    
+    $newImage = $current_featured_image;
+    if (isset($_FILES['featured_image']) && $_FILES['featured_image']['error'] === 0) {
+        $target_dir = "uploads/";
+        $uniqueFileName = uniqid() . '-' . basename($_FILES['featured_image']['name']);
+        $target_file = $target_dir . $uniqueFileName;
+
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0777, true);
+        }
+
+        if (move_uploaded_file($_FILES['featured_image']['tmp_name'], $target_file)) {
+            $newImage = $target_file; 
+        } else {
+            echo "<p class='text-red-500'>Erreur lors du téléchargement du fichier.</p>";
+        }
+    }
+        
 
     $selected_tags = isset($_POST['tags']) ? $_POST['tags'] : [];
 
@@ -70,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['title'], $_POST['cont
         'content' => $content,
         'excerpt' => $excerpt,
         'meta_description' => $meta_description,
-        'featured_image' => $featured_image,
+        'featured_image' => $newImage,
         'status' => $status,
         'scheduled_date' => $scheduled_date,
         'category_id' => $category_id,
