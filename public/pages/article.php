@@ -19,6 +19,14 @@
 
     $tags = $tag->read();
 ?>
+<?php
+    use Src\articles\Article;
+
+    $articleObj = new Article($db);
+
+    // Fetch all articles
+    $articles = $articleObj->readAll(); 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -280,6 +288,42 @@
                     </form>
                 </main>
             </div>
+            <h2 class="text-xl font-semibold mb-4 text-center">Articles List :</h2>
+            <table class="w-full table-auto bg-gray-700 rounded-md shadow-md">
+                <thead>
+                    <tr class="bg-gray-600">
+                        <th class="px-4 py-2 text-left text-white">Title</th>
+                        <th class="px-4 py-2 text-left text-white">Image</th>
+                        <th class="px-4 py-2 text-left text-white">Category</th>
+                        <th class="px-4 py-2 text-left text-white">Status</th>
+                        <th class="px-4 py-2 text-left text-white">Scheduled Date</th>
+                        <th class="px-4 py-2 text-left text-white">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (!empty($articles)): ?>
+                        <?php foreach ($articles as $article): ?>
+                            <tr class="border-t border-gray-600">
+                                <td class="px-4 py-2 text-gray-200"><?php echo htmlspecialchars($article['title']); ?></td>
+                                <td class="px-4 py-2 text-gray-200">
+                                    <img src="<?php echo '../../src/articles/'.$article['featured_image']; ?>" alt="drapeau" class="rounded-lg" width="50">
+                                </td>
+                                <td class="px-4 py-2 text-gray-200"><?php echo htmlspecialchars($article['category_name']); ?></td>
+                                <td class="px-4 py-2 text-gray-200"><?php echo htmlspecialchars($article['status']); ?></td>
+                                <td class="px-4 py-2 text-gray-200"><?php echo htmlspecialchars($article['scheduled_date']); ?></td>
+                                <td class="px-4 py-2">
+                                    <a href="edit_article.php?id=<?php echo $article['id']; ?>" class="text-yellow-500 hover:text-yellow-300 mr-2">Edit</a>
+                                    <a href="delete_article.php?id=<?php echo $article['id']; ?>" class="text-red-500 hover:text-red-300" onclick="return confirm('Are you sure you want to delete this article?')">Delete</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="6" class="px-4 py-2 text-center text-gray-400">No articles found.</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
             <footer class="w-full bg-white text-right p-4">
                 Built by <a target="_blank" href="https://www.linkedin.com/in/yahya-afadisse-236b022a9/" class="underline">Yahya Afadisse</a>.
             </footer>

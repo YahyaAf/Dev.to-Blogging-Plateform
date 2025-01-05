@@ -50,8 +50,8 @@ class Article {
             $stmt = $this->pdo->query("
                 SELECT a.*, c.name AS category_name, u.username AS author_name
                 FROM articles a
-                JOIN categories c ON a.category_id = c.id
-                JOIN users u ON a.author_id = u.id
+                LEFT JOIN categories c ON a.category_id = c.id
+                LEFT JOIN users u ON a.author_id = u.id
                 ORDER BY a.created_at DESC
             ");
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
