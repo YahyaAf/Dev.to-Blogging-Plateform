@@ -295,6 +295,7 @@
                         <th class="px-4 py-2 text-left text-white">Title</th>
                         <th class="px-4 py-2 text-left text-white">Image</th>
                         <th class="px-4 py-2 text-left text-white">Category</th>
+                        <th class="px-4 py-2 text-left text-white">Tags</th> 
                         <th class="px-4 py-2 text-left text-white">Status</th>
                         <th class="px-4 py-2 text-left text-white">Scheduled Date</th>
                         <th class="px-4 py-2 text-left text-white">Actions</th>
@@ -306,9 +307,12 @@
                             <tr class="border-t border-gray-600">
                                 <td class="px-4 py-2 text-gray-200"><?php echo htmlspecialchars($article['title']); ?></td>
                                 <td class="px-4 py-2 text-gray-200">
-                                    <img src="<?php echo '../../src/articles/'.$article['featured_image']; ?>" alt="drapeau" class="rounded-lg" width="50">
+                                    <img src="<?php echo '../../src/articles/'.$article['featured_image']; ?>" alt="image" class="rounded-lg" width="50">
                                 </td>
                                 <td class="px-4 py-2 text-gray-200"><?php echo htmlspecialchars($article['category_name']); ?></td>
+                                <td class="px-4 py-2 text-gray-200">
+                                    <?php echo htmlspecialchars($article['tags'] ?: 'No tags'); ?> <!-- Display tags -->
+                                </td>
                                 <td class="px-4 py-2 text-gray-200"><?php echo htmlspecialchars($article['status']); ?></td>
                                 <td class="px-4 py-2 text-gray-200"><?php echo htmlspecialchars($article['scheduled_date']); ?></td>
                                 <td class="px-4 py-2">
@@ -319,7 +323,7 @@
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="6" class="px-4 py-2 text-center text-gray-400">No articles found.</td>
+                            <td colspan="7" class="px-4 py-2 text-center text-gray-400">No articles found.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>

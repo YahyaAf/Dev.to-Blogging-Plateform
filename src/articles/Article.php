@@ -48,10 +48,13 @@ class Article {
     public function readAll() {
         try {
             $stmt = $this->pdo->query("
-                SELECT a.*, c.name AS category_name, u.username AS author_name
+                SELECT a.*, c.name AS category_name, u.username AS author_name, GROUP_CONCAT(t.name) AS tags
                 FROM articles a
                 LEFT JOIN categories c ON a.category_id = c.id
                 LEFT JOIN users u ON a.author_id = u.id
+                LEFT JOIN article_tags at ON a.id = at.article_id
+                LEFT JOIN tags t ON at.tag_id = t.id
+                GROUP BY a.id
                 ORDER BY a.created_at DESC
             ");
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
