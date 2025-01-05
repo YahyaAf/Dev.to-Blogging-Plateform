@@ -6,7 +6,6 @@ use Src\articles\Article;
 use Src\categories\Category;
 use Src\tags\Tag;
 
-// Initialize Database and classes
 $database = new Database("dev_blog");
 $db = $database->getConnection();
 
@@ -14,23 +13,20 @@ $article = new Article($db);
 $category = new Category($db);
 $tag = new Tag($db);
 
-// Fetch all categories and tags for the dropdown
 $categories = $category->read();
 $tags = $tag->read();
 
-// Fetch the article by ID for update
 if (isset($_GET['id'])) {
     $article_id = $_GET['id'];
     $article_data = $article->read($article_id);
 
     if ($article_data) {
-        // Extract current data for the form
         $current_title = $article_data['title'];
         $current_content = $article_data['content'];
         $current_excerpt = $article_data['excerpt'];
         $current_meta_description = $article_data['meta_description'];
         $current_category_id = $article_data['category_id'];
-        $current_tags = $article_data['tags']; // Assuming tags are an array
+        $current_tags = $article_data['tags'];
         $current_status = $article_data['status'];
         $current_featured_image = $article_data['featured_image'];
         $current_scheduled_date = $article_data['scheduled_date'];
@@ -52,9 +48,7 @@ function generateSlug($title) {
     return $slug;
 }
 
-// Handle form submission and update the article
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['title'], $_POST['content'], $_POST['categorie'])) {
-    // Sanitize inputs
     $title = htmlspecialchars(strip_tags($_POST['title']));
     $content = htmlspecialchars(strip_tags($_POST['content']));
     $excerpt = isset($_POST['excerpt']) ? htmlspecialchars(strip_tags($_POST['excerpt'])) : null;
@@ -63,15 +57,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['title'], $_POST['cont
     $category_id = htmlspecialchars(strip_tags($_POST['categorie']));
     $scheduled_date = $_POST['scheduled_date'] ?? null;
 
-    // Handle featured image upload
     $featured_image = isset($_FILES['featured_image']) && $_FILES['featured_image']['error'] === UPLOAD_ERR_OK
         ? uploadImage($_FILES['featured_image'])
         : $current_featured_image;
 
-    // Tags
     $selected_tags = isset($_POST['tags']) ? $_POST['tags'] : [];
 
-    // Prepare data array for update
     $data = [
         'id' => $article_id,
         'title' => $title,
@@ -222,6 +213,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['title'], $_POST['cont
                     <?php endforeach; ?>
                 </select>
             </div>
+
+            <!-- Scheduled Date -->
+            <div>
+                <label for="scheduled_date" class="block text-sm font-medium text-gray-400">Scheduled Date</label>
+                    <input 
+                        type="datetime-local" 
+                        id="scheduled_date" 
+                        name="scheduled_date"
+                        value="<?php echo htmlspecialchars($current_scheduled_date); ?>"
+                        class="w-full mt-1 p-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-md focus:ring focus:ring-blue-500 focus:border-blue-500 focus:outline-none" 
+                    />
+                </div>
 
             <!-- Submit button -->
             <div class="flex justify-between">
