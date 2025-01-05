@@ -2,6 +2,7 @@
     require_once __DIR__ . '/../../vendor/autoload.php';
     use config\Database;
     use Src\categories\Category;
+    use Src\tags\Tag;
 
     $database = new Database("dev_blog");
     $db = $database->getConnection();
@@ -9,6 +10,14 @@
     $category = new Category($db);
 
     $categories = $category->read();
+
+    // tags
+    $database = new Database("dev_blog");
+    $db = $database->getConnection();
+
+    $tag = new Tag($db);
+
+    $tags = $tag->read();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -140,7 +149,7 @@
             <div class="bg-gray-800 shadow-lg rounded-lg w-full max-w-2xl mx-auto p-8">
                 <main class="w-full flex-grow p-6">
                     <h1 class="text-2xl font-bold text-gray-100 mb-6">Create Article</h1>
-                    <form action="#" method="POST" enctype="multipart/form-data" class="space-y-6">
+                    <form action="../../src/articles/articleHandler.php" method="POST" enctype="multipart/form-data" class="space-y-6">
                         <!-- Title -->
                         <div>
                             <label for="title" class="block text-sm font-medium text-gray-400">Title</label>
@@ -226,15 +235,27 @@
                                 class="w-full mt-1 p-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-md focus:ring focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
                                 required
                             >
-                            <option value="">--Please choose an categorie--</option>
-                            <?php foreach ($categories as $cat): ?>
-                                <option value="<?php echo htmlspecialchars($cat['name']); ?>">
-                                    <?php echo htmlspecialchars($cat['name']); ?>
-                                </option>
-                            <?php endforeach; ?>
-                                
+                                <option value="">--Please choose a category--</option>
+                                <?php foreach ($categories as $cat): ?>
+                                    <option value="<?php echo htmlspecialchars($cat['id']); ?>">
+                                        <?php echo htmlspecialchars($cat['name']); ?>
+                                    </option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
+                        <!-- tags  -->
+                        <select 
+                            id="tags" 
+                            name="tags[]" 
+                            class="w-full mt-1 p-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-md focus:ring focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
+                            multiple
+                        >
+                            <?php foreach ($tags as $tag): ?>
+                                <option value="<?php echo htmlspecialchars($tag['id']); ?>">
+                                    <?php echo htmlspecialchars($tag['name']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
 
                         <!-- Scheduled Date -->
                         <div>
