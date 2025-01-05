@@ -88,3 +88,18 @@ function generateSlug($title)
     $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
     return $slug;
 }
+
+// Delete an article 
+if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET['id'])) {
+    $articleId = $_GET['id'];
+
+    if ($article->delete($articleId)) {
+        header("Location: ../../public/pages/article.php"); 
+    } else {
+        echo "Failed to delete the article.";
+    }
+} 
+
+else {
+    echo "Invalid request method.";
+}

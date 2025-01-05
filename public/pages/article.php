@@ -311,13 +311,13 @@
                                 </td>
                                 <td class="px-4 py-2 text-gray-200"><?php echo htmlspecialchars($article['category_name']); ?></td>
                                 <td class="px-4 py-2 text-gray-200">
-                                    <?php echo htmlspecialchars($article['tags'] ?: 'No tags'); ?> <!-- Display tags -->
+                                    <?php echo htmlspecialchars($article['tags'] ?: 'No tags'); ?>
                                 </td>
                                 <td class="px-4 py-2 text-gray-200"><?php echo htmlspecialchars($article['status']); ?></td>
                                 <td class="px-4 py-2 text-gray-200"><?php echo htmlspecialchars($article['scheduled_date']); ?></td>
                                 <td class="px-4 py-2">
                                     <a href="edit_article.php?id=<?php echo $article['id']; ?>" class="text-yellow-500 hover:text-yellow-300 mr-2">Edit</a>
-                                    <a href="delete_article.php?id=<?php echo $article['id']; ?>" class="text-red-500 hover:text-red-300" onclick="return confirm('Are you sure you want to delete this article?')">Delete</a>
+                                    <a href="../../src/articles/articleHandler.php?id=<?php echo $article['id']; ?>" class="text-red-500 hover:text-red-300" onclick="return confirm('Are you sure you want to delete this article?')">Delete</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
