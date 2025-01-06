@@ -1,9 +1,9 @@
 <?php
-namespace Src\auth;
+namespace Src\users;
 
 use Src\Crud\CRUD;
 
-class Signup {
+class User {
     private $crud;
 
     public $id;
@@ -17,7 +17,7 @@ class Signup {
     }
 
 
-    public function create() {
+    public function signup() {
         $this->crud->fields = [
             'username' => $this->username,
             'email' => $this->email,
