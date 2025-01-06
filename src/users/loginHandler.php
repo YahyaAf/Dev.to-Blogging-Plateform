@@ -9,17 +9,15 @@ $db = $database->getConnection();
 
 $user = new User($db);
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $username = htmlspecialchars(strip_tags($_POST['username']));
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = htmlspecialchars(strip_tags($_POST['email']));
     $password = htmlspecialchars(strip_tags($_POST['password']));
-    $profile_picture_url = htmlspecialchars(strip_tags($_POST['profile_picture_url']));
 
-    if ($user->signup($username, $email, $password, $profile_picture_url)) {
-        header("Location: ../../public/pages/login.php");
+    if ($user->login($email, $password)) {
+        header("Location: ../../public/index.php");
         exit();
     } else {
-        echo "Failed to create user.";
+        echo "Invalid email or password.";
     }
 } else {
     echo "Invalid request method.";

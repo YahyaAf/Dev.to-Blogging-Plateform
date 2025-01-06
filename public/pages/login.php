@@ -15,7 +15,7 @@
 <body class="bg-gray-900 text-gray-200 flex items-center justify-center h-screen">
     <div class="w-full max-w-md bg-gray-800 rounded-lg shadow-lg p-6">
         <h2 class="text-2xl font-bold text-center text-gray-100 mb-6">Welcome Back</h2>
-        <form action="#" method="POST" class="space-y-4">
+        <form action="../../src/users/loginHandler.php" method="POST" class="space-y-4">
             <!-- Email -->
             <div>
                 <label for="email" class="block text-sm font-medium text-gray-300">Email</label>
