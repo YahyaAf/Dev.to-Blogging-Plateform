@@ -16,9 +16,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $signup_password_hash = htmlspecialchars(strip_tags($_POST['password_hash']));
         $signup_profile_picture_url = htmlspecialchars(strip_tags($_POST['profile_picture_url']));
 
+        // hash password
+        $hashed_password = password_hash($signup_password_hash, PASSWORD_DEFAULT);
+
         $signup->username = $signup_name;
         $signup->email = $signup_email;
-        $signup->password_hash = $signup_password_hash;
+        $signup->password_hash = $hashed_password;
         $signup->profile_picture_url = $signup_profile_picture_url;
 
         if ($signup->signup()) {
