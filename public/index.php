@@ -65,43 +65,38 @@
         </div>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6 mx-auto" style="max-width: 90%;">
-        <?php if (!empty($articles)): ?>
-          <?php foreach ($articles as $article): ?>
-            <div class="bg-gray-700 rounded-lg shadow-md overflow-hidden flex flex-col">
-              <!-- Image Section -->
-              <div class="h-48 bg-cover bg-center" style="background-image: url('../src/articles/<?php echo $article['featured_image']; ?>');">
-              </div>
+    <?php if (!empty($articles)): ?>
+        <?php foreach ($articles as $article): ?>
+            <?php if ($article['status'] === 'published'): ?>
+                <div class="bg-gray-700 rounded-lg shadow-md overflow-hidden flex flex-col">
+                    <div class="h-48 bg-cover bg-center" style="background-image: url('../src/articles/<?php echo $article['featured_image']; ?>');">
+                    </div>
 
-              <!-- Content Section -->
-              <div class="p-4 flex-grow">
-                <h3 class="text-xl font-bold text-white mb-2"><?php echo htmlspecialchars($article['title']); ?></h3>
-                <p class="text-gray-400 text-sm mb-2">
-                  <span class="font-semibold text-gray-300">Category:</span> <?php echo htmlspecialchars($article['category_name']); ?>
-                </p>
-                <p class="text-gray-400 text-sm mb-2">
-                  <span class="font-semibold text-gray-300">Tags:</span> <?php echo htmlspecialchars($article['tags'] ?: 'No tags'); ?>
-                </p>
-                <p class="text-gray-400 text-sm mb-4">
-                  <span class="font-semibold text-gray-300">Scheduled:</span> <?php echo htmlspecialchars($article['scheduled_date']); ?>
-                </p>
-                <div class="flex justify-end">
-                  <a href="" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-full shadow-md font-semibold transition-all duration-300 transform hover:scale-105">
-                    View
-                  </a>
+                    <div class="p-4 flex-grow">
+                        <h3 class="text-xl font-bold text-white mb-2"><?php echo htmlspecialchars($article['title']); ?></h3>
+                        <p class="text-gray-400 text-sm mb-2">
+                            <span class="font-semibold text-gray-300">Category:</span> <?php echo htmlspecialchars($article['category_name']); ?>
+                        </p>
+                        <p class="text-gray-400 text-sm mb-2">
+                            <span class="font-semibold text-gray-300">Tags:</span> <?php echo htmlspecialchars($article['tags'] ?: 'No tags'); ?>
+                        </p>
+                        <p class="text-gray-400 text-sm mb-4">
+                            <span class="font-semibold text-gray-300">Scheduled:</span> <?php echo htmlspecialchars($article['scheduled_date']); ?>
+                        </p>
+                        <div class="flex justify-end">
+                            <a href="" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-full shadow-md font-semibold transition-all duration-300 transform hover:scale-105">
+                                View
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                
-              </div>
-            </div>
-          <?php endforeach; ?>
-        <?php else: ?>
-          <div class="col-span-full text-center text-gray-400">
-            No articles found.
-          </div>
-        <?php endif; ?>
+            <?php endif; ?> 
+            <?php endforeach; ?>
+            <?php else: ?>
+                <div class="col-span-full text-center text-gray-400">
+                    No articles found.
+                </div>
+            <?php endif; ?>
       </div>
-
-
-
-
 </body>
 </html>
