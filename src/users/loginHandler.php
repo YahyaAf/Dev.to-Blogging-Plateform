@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = htmlspecialchars(strip_tags($_POST['password']));
 
     if ($user->login($email, $password)) {
-        header("Location: ../../public/index.php");
+        header("Location: ../../public/pages/home.php");
         exit();
     } else {
         echo "Invalid email or password.";

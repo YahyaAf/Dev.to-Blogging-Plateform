@@ -10,7 +10,7 @@ $db = $database->getConnection();
 $user = new User($db);
 
 if ($user->logout()) {
-    header("Location: ../../public/pages/login.php"); 
+    header("Location: ../../public/index.php"); 
     exit();
 } else {
     echo "Logout failed.";
