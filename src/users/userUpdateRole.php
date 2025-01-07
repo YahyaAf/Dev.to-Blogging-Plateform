@@ -59,10 +59,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <h1 class="text-2xl font-bold mb-6 text-center text-white">Modifier le rôle</h1>
         <form action="" method="POST" class="space-y-6">
 
-            <!-- Hidden input to store user ID -->
             <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
 
-            <!-- Select dropdown for roles -->
             <div>
                 <label for="role" class="block text-sm font-medium text-gray-400">Rôle</label>
                 <select id="role" name="role" 
@@ -73,7 +71,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 </select>
             </div>
             
-            <!-- Submit button -->
             <div>
                 <button type="submit" 
                         class="w-full bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">

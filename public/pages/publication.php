@@ -2,6 +2,7 @@
     require_once __DIR__ . '/../../vendor/autoload.php';
     use config\Database;
     use Src\categories\Category;
+    use Src\tags\Tag;
 
     $database = new Database("dev_blog");
     $db = $database->getConnection();
@@ -9,13 +10,47 @@
     $category = new Category($db);
 
     $categories = $category->read();
+
+    // tags
+    $database = new Database("dev_blog");
+    $db = $database->getConnection();
+
+    $tag = new Tag($db);
+
+    $tags = $tag->read();
+?>
+<?php
+    use Src\articles\Article;
+
+    $articleObj = new Article($db);
+
+    $articles = $articleObj->readAll(); 
+
+    $id = isset($_GET['id']) ? htmlspecialchars(strip_tags($_GET['id'])) : null;
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $status = $_POST['status'];
+    $id = isset($_POST['id']) ? htmlspecialchars(strip_tags($_POST['id'])) : null; 
+
+    $data = [
+        'id' => $id,
+        'status' => $status,
+    ];
+
+    if ($articleObj->updateStatus($id, $data)) {
+        header("Location: publication.php"); 
+        exit();
+    } else {
+        echo "Failed to update article.";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Categories</title>
+    <title>Publication</title>
     <meta name="author" content="David Grzyb">
     <meta name="description" content="">
 
@@ -36,7 +71,7 @@
 <body class="bg-gray-100 font-family-karla flex">
     <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
         <div class="p-6">
-            <a href="home.html" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
+            <a href="../index.html" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
         </div>
         <nav class="text-white text-base font-semibold pt-3">
             <a href="home.php" class="flex items-center text-white py-4 pl-6 nav-item">
@@ -58,6 +93,10 @@
             <a href="article.php" class="flex items-center text-white py-4 pl-6 nav-item">
                 <i class="fas fa-file-alt mr-3"></i>
                 articles
+            </a>
+            <a href="publication.php" class="flex items-center text-white py-4 pl-6 nav-item">
+                <i class="fas fa-file-alt mr-3"></i>
+                publication
             </a>
         </nav>
         <a href="#" class="absolute w-full upgrade-btn bottom-0 active-nav-link text-white flex items-center justify-center py-4">
@@ -115,7 +154,7 @@
                     <i class="fas fa-file-alt mr-3"></i>
                     articles
                 </a>
-                <a href="publication.php" class="flex items-center text-white py-4 pl-6 nav-item">
+                <a href="publication.php" class="flex items-center text-white py-2 pl-4 nav-item">
                     <i class="fas fa-file-alt mr-3"></i>
                     publication
                 </a>
@@ -139,62 +178,61 @@
                 <i class="fas fa-plus mr-3"></i> New Report
             </button> -->
         </header>
-    
         <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
             <main class="w-full flex-grow p-6">
-                <div class="bg-gray-800 shadow-lg rounded-lg w-full max-w-2xl mx-auto p-8">
-                    <h1 class="text-2xl font-bold text-gray-100 mb-6">Add Category</h1>
-                    <form action="../../src/categories/categorieHandler.php" method="POST" class="space-y-6">
-                        <div>
-                            <label for="name" class="block text-sm font-medium text-gray-400">Category Name</label>
-                            <input 
-                                type="text" 
-                                id="name" 
-                                name="name" 
-                                class="w-full mt-1 p-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-md focus:ring focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-                                placeholder="Enter category name" 
-                                required
-                            />
-                        </div>
-                        <div>
-                            <button 
-                                type="submit" 
-                                class="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:ring focus:ring-blue-500"
-                            >
-                                Save Category
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </main>
-            <!-- Category List Table -->
-            <h2 class="text-xl font-semibold mb-4 text-center">Category List :</h2>
-            <table class="w-full table-auto bg-gray-700 rounded-md shadow-md">
-                <thead>
-                    <tr class="bg-gray-600">
-                        <th class="px-4 py-2 text-left">Name</th>
-                        <th class="px-4 py-2 text-left">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    if ($categories) {
-                        foreach ($categories as $cat) {
-                            echo "<tr class='border-t border-gray-600'>
-                                    <td class='px-4 py-2'>{$cat['name']}</td>
-                                    <td class='px-4 py-2'>
-                                        <a href='../../src/categories/categorieUpdate.php?id={$cat['id']}' class='text-yellow-500 hover:text-yellow-300 mr-2'>Update</a>
-                                        <a href='../../src/categories/categorieHandler.php?id={$cat['id']}' class='text-red-500 hover:text-red-300'>Delete</a>
+                <h2 class="text-2xl font-semibold mb-6 text-center text-white">Articles List :</h2>
+                <table class="w-full table-auto bg-gray-800 rounded-lg shadow-md overflow-hidden">
+                    <thead>
+                        <tr class="bg-gray-700 text-white">
+                            <th class="px-6 py-3 text-left text-sm font-semibold">Title</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold">Image</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold">Category</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold">Tags</th> 
+                            <th class="px-6 py-3 text-left text-sm font-semibold">Scheduled Date</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($articles)): ?>
+                            <?php foreach ($articles as $article): ?>
+                                <tr class="border-t border-gray-600 hover:bg-gray-700 transition duration-200">
+                                    <td class="px-6 py-4 text-gray-200"><?php echo htmlspecialchars($article['title']); ?></td>
+                                    <td class="px-6 py-4 text-gray-200">
+                                        <img src="<?php echo '../../src/articles/'.$article['featured_image']; ?>" alt="image" class="rounded-lg w-16 h-16 object-cover">
                                     </td>
-                                </tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='3' class='px-4 py-2 text-center'>No categories found.</td></tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
+                                    <td class="px-6 py-4 text-gray-200"><?php echo htmlspecialchars($article['category_name']); ?></td>
+                                    <td class="px-6 py-4 text-gray-200">
+                                        <?php echo htmlspecialchars($article['tags'] ?: 'No tags'); ?>
+                                    </td>
+                                    <td class="px-6 py-4 text-gray-200"><?php echo htmlspecialchars($article['scheduled_date']); ?></td>
+                                    <td class="px-6 py-4">
+                                    <form action="publication.php" method="POST" class="flex items-center space-x-3">
+                                        <!-- Hidden input to store article ID -->
+                                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($article['id']); ?>">
 
+                                        <!-- Status dropdown with selected value -->
+                                        <select name="status" id="status_<?php echo $article['id']; ?>" class="bg-gray-700 text-white border border-gray-600 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                            <option value="draft" <?php echo $article['status'] === 'draft' ? 'selected' : ''; ?>>Draft</option>
+                                            <option value="published" <?php echo $article['status'] === 'published' ? 'selected' : ''; ?>>Published</option>
+                                        </select>
+
+                                        <!-- Save button -->
+                                        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                                            Save
+                                        </button>
+                                    </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="6" class="px-6 py-4 text-center text-gray-400">No articles found.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>                  
+            </main>
+        </div>
 
             <footer class="w-full bg-white text-right p-4">
                 Built by <a target="_blank" href="https://www.linkedin.com/in/yahya-afadisse-236b022a9/" class="underline">Yahya Afadisse</a>.

@@ -127,6 +127,29 @@ class Article {
         }
     }
 
+    public function updateStatus($id, $data) {
+        try {
+            $stmt = $this->pdo->prepare("
+                UPDATE articles
+                SET status = :status
+                WHERE id = :id
+            ");
+ 
+            $stmt->execute([
+                'id' => $id,
+                'status' => $data['status']
+            ]);    
+            return true;  
+        } catch (PDOException $e) {
+            error_log("Error updating article: " . $e->getMessage());
+            return false;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return false;
+        }
+    }
+    
+
     public function delete($id) {
         try {
             $this->removeTags($id);
