@@ -12,7 +12,7 @@ $user = new User($db);
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = htmlspecialchars(strip_tags($_POST['username']));
     $email = htmlspecialchars(strip_tags($_POST['email']));
-    $password = htmlspecialchars(strip_tags($_POST['password']));
+    $password = htmlspecialchars(strip_tags($_POST['password_hash']));
     $profile_picture_url = htmlspecialchars(strip_tags($_POST['profile_picture_url']));
 
     if ($user->signup($username, $email, $password, $profile_picture_url)) {

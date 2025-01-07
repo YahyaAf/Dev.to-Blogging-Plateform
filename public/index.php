@@ -81,9 +81,6 @@
                 <p class="text-gray-400 text-sm mb-2">
                   <span class="font-semibold text-gray-300">Tags:</span> <?php echo htmlspecialchars($article['tags'] ?: 'No tags'); ?>
                 </p>
-                <p class="text-gray-400 text-sm mb-2">
-                  <span class="font-semibold text-gray-300">Status:</span> <?php echo htmlspecialchars($article['status']); ?>
-                </p>
                 <p class="text-gray-400 text-sm mb-4">
                   <span class="font-semibold text-gray-300">Scheduled:</span> <?php echo htmlspecialchars($article['scheduled_date']); ?>
                 </p>

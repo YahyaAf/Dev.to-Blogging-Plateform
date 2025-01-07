@@ -218,22 +218,6 @@
                                 class="w-full mt-1 p-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-md focus:ring focus:ring-blue-500 focus:border-blue-500 focus:outline-none" 
                             />
                         </div>
-
-                        <!-- Status -->
-                        <div>
-                            <label for="status" class="block text-sm font-medium text-gray-400">Status</label>
-                            <select 
-                                id="status" 
-                                name="status" 
-                                class="w-full mt-1 p-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-md focus:ring focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-                                required
-                            >
-                                <option value="draft">Draft</option>
-                                <option value="published">Published</option>
-                                <option value="scheduled">scheduled</option>
-                            </select>
-                        </div>
-
                         <!-- categorie  -->
                         <div>
                             <label for="categorie" class="block text-sm font-medium text-gray-400">Categorie</label>
@@ -296,7 +280,6 @@
                         <th class="px-4 py-2 text-left text-white">Image</th>
                         <th class="px-4 py-2 text-left text-white">Category</th>
                         <th class="px-4 py-2 text-left text-white">Tags</th> 
-                        <th class="px-4 py-2 text-left text-white">Status</th>
                         <th class="px-4 py-2 text-left text-white">Scheduled Date</th>
                         <th class="px-4 py-2 text-left text-white">Actions</th>
                     </tr>
@@ -313,7 +296,6 @@
                                 <td class="px-4 py-2 text-gray-200">
                                     <?php echo htmlspecialchars($article['tags'] ?: 'No tags'); ?>
                                 </td>
-                                <td class="px-4 py-2 text-gray-200"><?php echo htmlspecialchars($article['status']); ?></td>
                                 <td class="px-4 py-2 text-gray-200"><?php echo htmlspecialchars($article['scheduled_date']); ?></td>
                                 <td class="px-4 py-2">
                                     <a href="../../src/articles/articleUpdate.php?id=<?php echo $article['id']; ?>" class="text-yellow-500 hover:text-yellow-300 mr-2">Update</a>
