@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Modifier le rôle</title>
 </head>
-<body class="bg-gray-900 text-gray-200 h-screen flex items-center justify-center">
+<body class=" h-screen flex items-center justify-center">
 
     <div class="container mx-auto p-6 bg-gray-800 shadow-md rounded-lg w-full max-w-md">
         <h1 class="text-2xl font-bold mb-6 text-center text-white">Modifier le rôle</h1>
