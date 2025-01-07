@@ -1,3 +1,16 @@
+<?php
+    require_once __DIR__ . '/../../vendor/autoload.php';
+
+    use config\Database;
+    use Src\users\User;
+
+    $database = new Database("dev_blog");
+    $db = $database->getConnection();
+
+    $user = new User($db);
+
+    $users = $user->readAll();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -123,14 +136,50 @@
                 <i class="fas fa-plus mr-3"></i> New Report
             </button> -->
         </header>
-    
         <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
             <main class="w-full flex-grow p-6">
-               
+                <div class="container mx-auto p-6 bg-white shadow-md rounded-lg">
+                    <h1 class="text-2xl font-bold mb-6 text-center">Liste des utilisateurs</h1>
+                    <table class="table-auto w-full border-collapse border border-gray-300">
+                        <thead>
+                            <tr class="bg-gray-200">
+                                <th class="border border-gray-300 px-4 py-2">Nom d'utilisateur</th>
+                                <th class="border border-gray-300 px-4 py-2">Email</th>
+                                <th class="border border-gray-300 px-4 py-2">Photo de profil</th>
+                                <th class="border border-gray-300 px-4 py-2">Rôle</th>
+                                <th class="border border-gray-300 px-4 py-2">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (!empty($users)): ?>
+                                <?php foreach ($users as $user): ?>
+                                    <tr class="odd:bg-white even:bg-gray-50">
+                                        <td class="border border-gray-300 px-4 py-2"><?php echo htmlspecialchars($user['username']); ?></td>
+                                        <td class="border border-gray-300 px-4 py-2"><?php echo htmlspecialchars($user['email']); ?></td>
+                                        <td class="border border-gray-300 px-4 py-2 text-center">
+                                            <?php if (!empty($user['profile_picture_url'])): ?>
+                                                <img src="<?php echo htmlspecialchars($user['profile_picture_url']); ?>" alt="Profile" class="w-12 h-12 rounded-full mx-auto">
+                                            <?php else: ?>
+                                                N/A
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="border border-gray-300 px-4 py-2"><?php echo htmlspecialchars($user['role']); ?></td>
+                                        <td class="border border-gray-300 px-4 py-2 text-center">
+                                            <a href="edit_user.php?id=<?php echo htmlspecialchars($user['id']); ?>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">Modifier</a>
+                                            <a href="delete_user.php?id=<?php echo htmlspecialchars($user['id']); ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">Supprimer</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="6" class="text-center border border-gray-300 px-4 py-2">Aucun utilisateur trouvé.</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
             </main>
         </div>
-
-
             <footer class="w-full bg-white text-right p-4">
                 Built by <a target="_blank" href="https://www.linkedin.com/in/yahya-afadisse-236b022a9/" class="underline">Yahya Afadisse</a>.
             </footer>

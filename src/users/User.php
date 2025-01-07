@@ -66,6 +66,39 @@ class User {
         session_destroy();
         return true;
     }
-}
 
+
+    public function readAll() {
+        try {
+            $sql = "SELECT * FROM {$this->table}";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function update($id, $username, $email, $profile_picture_url, $role) {
+        try {
+            $sql = "UPDATE {$this->table} 
+                    SET username = :username, email = :email, profile_picture_url = :profile_picture_url, role = :role 
+                    WHERE id = :id";
+            $stmt = $this->db->prepare($sql);
+
+            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':profile_picture_url', $profile_picture_url);
+            $stmt->bindParam(':role', $role);
+
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+}
 ?>
