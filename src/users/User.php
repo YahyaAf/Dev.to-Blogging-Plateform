@@ -100,5 +100,20 @@ class User {
             return false;
         }
     }
+    
+    public function updateRole($id, $role) {
+        try {
+            $sql = "UPDATE {$this->table} SET role = :role WHERE id = :id";
+            $stmt = $this->db->prepare($sql);
+    
+            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':role', $role);
+    
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            echo "Erreur : " . $e->getMessage();
+            return false;
+        }
+    }
 }
 ?>

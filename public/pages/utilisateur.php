@@ -165,7 +165,7 @@
                                         </td>
                                         <td class="border border-gray-300 px-4 py-2"><?php echo htmlspecialchars($user['role']); ?></td>
                                         <td class="border border-gray-300 px-4 py-2 text-center">
-                                            <a href="edit_user.php?id=<?php echo htmlspecialchars($user['id']); ?>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">Modifier</a>
+                                            <a href="../../src/users/userUpdateRole.php?id=<?php echo htmlspecialchars($user['id']); ?>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">Modifier</a>
                                             <a href="delete_user.php?id=<?php echo htmlspecialchars($user['id']); ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">Supprimer</a>
                                         </td>
                                     </tr>
