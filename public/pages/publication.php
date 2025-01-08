@@ -5,6 +5,11 @@
     use Src\tags\Tag;
     session_start();
 
+    if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+        header('Location: erreur404.php');
+        exit();
+    }
+
     $database = new Database("dev_blog");
     $db = $database->getConnection();
 

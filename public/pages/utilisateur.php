@@ -22,6 +22,11 @@
             echo "Échec de la suppression de l'utilisateur.";
         }
     }
+
+    if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+        header('Location: erreur404.php');
+        exit();
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

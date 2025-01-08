@@ -2,6 +2,7 @@
     require_once __DIR__ . '/../../vendor/autoload.php';
     use config\Database;
     use Src\tags\Tag;
+    session_start();
 
     $database = new Database("dev_blog");
     $db = $database->getConnection();
@@ -9,6 +10,11 @@
     $tag = new Tag($db);
 
     $tags = $tag->read();
+
+    if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+        header('Location: erreur404.php');
+        exit();
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

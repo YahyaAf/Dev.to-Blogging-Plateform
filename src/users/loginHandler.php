@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($user->login($email, $password)) {
-        header("Location: ../../public/pages/home.php"); 
+        header("Location: ../../public/index.php"); 
         exit();
     } else {
         echo "Invalid email or password.";

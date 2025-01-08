@@ -3,6 +3,7 @@
     use config\Database;
     use Src\categories\Category;
     use Src\tags\Tag;
+    use Src\articles\Article;
 
     session_start();
 
@@ -20,14 +21,14 @@
     $tag = new Tag($db);
 
     $tags = $tag->read();
-?>
-<?php
-    use Src\articles\Article;
 
     $articleObj = new Article($db);
-
-    // Fetch all articles
     $articles = $articleObj->readAll(); 
+
+    if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'author') {
+        header('Location: erreur404.php');
+        exit();
+    }
 
 ?>
 <!DOCTYPE html>

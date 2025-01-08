@@ -2,12 +2,18 @@
     require_once __DIR__ . '/../../vendor/autoload.php';
     use config\Database;
     use Src\categories\Category;
+    session_start();
+
+    if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+        header('Location: erreur404.php');
+        exit();
+    }
 
     $database = new Database("dev_blog");
     $db = $database->getConnection();
 
     $category = new Category($db);
-    session_start();
+    
 
     $categories = $category->read();
 ?>
