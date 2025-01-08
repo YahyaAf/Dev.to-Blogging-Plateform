@@ -3,6 +3,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 use config\Database;
 use Src\articles\Article;
+session_start();
 
 $database = new Database("dev_blog");
 $db = $database->getConnection();

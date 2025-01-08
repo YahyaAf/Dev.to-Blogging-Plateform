@@ -48,13 +48,16 @@ class User {
                 if (session_status() === PHP_SESSION_NONE) {
                     session_start();
                 }
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['username'] = $user['username'];
-                $_SESSION['email'] = $user['email'];
-                $_SESSION['profile_picture_url'] = $user['profile_picture_url'];
-                $_SESSION['role'] = $user['role'];
+                $_SESSION['user'] = [
+                    'id' => $user['id'],
+                    'username' => $user['username'],
+                    'email' => $user['email'],
+                    'role' => $user['role'],
+                    'profile_picture_url' => $user['profile_picture_url']
+                ];
 
                 return true;
+                
             } else {
                 return false;
             }

@@ -26,6 +26,7 @@
 
     // Fetch all articles
     $articles = $articleObj->readAll(); 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

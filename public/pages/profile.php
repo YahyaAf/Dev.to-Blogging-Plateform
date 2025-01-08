@@ -1,56 +1,33 @@
 <?php
     require_once __DIR__ . '/../../vendor/autoload.php';
+
     use config\Database;
-    use Src\categories\Category;
-    use Src\tags\Tag;
+    use Src\users\User;
 
     $database = new Database("dev_blog");
     $db = $database->getConnection();
 
-    $category = new Category($db);
+    $user = new User($db);
 
-    $categories = $category->read();
-
-    // tags
-    $database = new Database("dev_blog");
-    $db = $database->getConnection();
-
-    $tag = new Tag($db);
-
-    $tags = $tag->read();
-?>
-<?php
-    use Src\articles\Article;
-
-    $articleObj = new Article($db);
-
-    $articles = $articleObj->readAll(); 
+    $users = $user->readAll();
 
     $id = isset($_GET['id']) ? htmlspecialchars(strip_tags($_GET['id'])) : null;
 
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $status = $_POST['status'];
-    $id = isset($_POST['id']) ? htmlspecialchars(strip_tags($_POST['id'])) : null; 
-
-    $data = [
-        'id' => $id,
-        'status' => $status,
-    ];
-
-    if ($articleObj->updateStatus($id, $data)) {
-        header("Location: publication.php"); 
-        exit();
-    } else {
-        echo "Failed to update article.";
+    if ($id) {
+        if ($user->delete($id)) {
+            header("Location: utilisateur.php");
+            exit();
+        } else {
+            echo "Échec de la suppression de l'utilisateur.";
+        }
     }
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Publication</title>
+    <title>Utilisateurs</title>
     <meta name="author" content="David Grzyb">
     <meta name="description" content="">
 
@@ -154,10 +131,6 @@
                     <i class="fas fa-file-alt mr-3"></i>
                     articles
                 </a>
-                <a href="publication.php" class="flex items-center text-white py-2 pl-4 nav-item">
-                    <i class="fas fa-file-alt mr-3"></i>
-                    publication
-                </a>
                 <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
                     <i class="fas fa-cogs mr-3"></i>
                     Support
@@ -180,62 +153,9 @@
         </header>
         <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
             <main class="w-full flex-grow p-6">
-                <h2 class="text-2xl font-semibold mb-6 text-center text-white">Articles List :</h2>
-                <table class="w-full table-auto bg-gray-800 rounded-lg shadow-md overflow-hidden">
-                    <thead>
-                        <tr class="bg-gray-700 text-white">
-                            <th class="px-6 py-3 text-left text-sm font-semibold">Title</th>
-                            <th class="px-6 py-3 text-left text-sm font-semibold">Image</th>
-                            <th class="px-6 py-3 text-left text-sm font-semibold">Category</th>
-                            <th class="px-6 py-3 text-left text-sm font-semibold">Tags</th> 
-                            <th class="px-6 py-3 text-left text-sm font-semibold">Scheduled Date</th>
-                            <th class="px-6 py-3 text-left text-sm font-semibold">Author</th>
-                            <th class="px-6 py-3 text-left text-sm font-semibold">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (!empty($articles)): ?>
-                            <?php foreach ($articles as $article): ?>
-                                <tr class="border-t border-gray-600 hover:bg-gray-700 transition duration-200">
-                                    <td class="px-6 py-4 text-gray-200"><?php echo htmlspecialchars($article['title']); ?></td>
-                                    <td class="px-6 py-4 text-gray-200">
-                                        <img src="<?php echo '../../src/articles/'.$article['featured_image']; ?>" alt="image" class="rounded-lg w-16 h-16 object-cover">
-                                    </td>
-                                    <td class="px-6 py-4 text-gray-200"><?php echo htmlspecialchars($article['category_name']); ?></td>
-                                    <td class="px-6 py-4 text-gray-200">
-                                        <?php echo htmlspecialchars($article['tags'] ?: 'No tags'); ?>
-                                    </td>
-                                    <td class="px-6 py-4 text-gray-200"><?php echo htmlspecialchars($article['scheduled_date']); ?></td>
-                                    <td class="px-6 py-4 text-gray-200"><?php echo htmlspecialchars($article['author_name']); ?></td>
-                                    <td class="px-6 py-4">
-                                    <form action="publication.php" method="POST" class="flex items-center space-x-3">
-                                        <!-- Hidden input to store article ID -->
-                                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($article['id']); ?>">
-
-                                        <!-- Status dropdown with selected value -->
-                                        <select name="status" id="status_<?php echo $article['id']; ?>" class="bg-gray-700 text-white border border-gray-600 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                                            <option value="draft" <?php echo $article['status'] === 'draft' ? 'selected' : ''; ?>>Draft</option>
-                                            <option value="published" <?php echo $article['status'] === 'published' ? 'selected' : ''; ?>>Published</option>
-                                        </select>
-
-                                        <!-- Save button -->
-                                        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
-                                            Save
-                                        </button>
-                                    </form>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="6" class="px-6 py-4 text-center text-gray-400">No articles found.</td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>                  
+                
             </main>
         </div>
-
             <footer class="w-full bg-white text-right p-4">
                 Built by <a target="_blank" href="https://www.linkedin.com/in/yahya-afadisse-236b022a9/" class="underline">Yahya Afadisse</a>.
             </footer>

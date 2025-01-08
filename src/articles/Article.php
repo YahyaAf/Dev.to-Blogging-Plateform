@@ -29,7 +29,7 @@ class Article {
                 'featured_image' => $data['featured_image'],
                 'status' => $data['status'],
                 'scheduled_date' => $data['scheduled_date'],
-                'author_id' => $data['author_id']
+                'author_id' => $_SESSION['user']['id']
             ]);
     
             $articleId = $this->pdo->lastInsertId();
