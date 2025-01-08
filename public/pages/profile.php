@@ -1,6 +1,40 @@
 <?php
-    session_start();
+require_once __DIR__ . '/../../vendor/autoload.php';
+use config\Database;
+use Src\users\User;
+
+session_start();
+
+if (!isset($_SESSION['user']['id'])) {
+    echo "User not logged in!";
+    exit();
+}
+
+$userId = $_SESSION['user']['id'];
+
+$database = new Database("dev_blog");
+$db = $database->getConnection();
+
+$user = new User($db);
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $username = htmlspecialchars(strip_tags($_POST['username']));
+    $email = htmlspecialchars(strip_tags($_POST['email']));
+    $profile_picture_url = htmlspecialchars(strip_tags($_POST['profile_picture_url']));
+    $role = htmlspecialchars(strip_tags($_POST['role']));
+
+    if ($user->update($userId, $username, $email, $profile_picture_url, $role)) {
+        header("Location: ../../public/pages/home.php");
+        exit();
+    } else {
+        echo "Failed to update profile.";
+    }
+}
 ?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -131,10 +165,89 @@
             </button> -->
         </header>
         <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
-            <main class="w-full flex-grow p-6">
+        <main class="flex items-center justify-center w-full h-screen p-6">
+            <div class="w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Left Card for Player's Formation -->
+                <div class="bg-gray-800 rounded-xl shadow-lg p-8 flex items-center justify-center">
+                    <div class="w-full max-w-xs bg-gray-700 rounded-xl p-6">
+                        <h2 class="text-2xl font-extrabold text-center text-gray-100 mb-6">Player Formation</h2>
+                        <!-- Player Information Card -->
+                        <div class="text-center text-gray-200">
+                            <img 
+                                src="<?php echo $_SESSION['user']['profile_picture_url']; ?>"
+                                alt="Player Image" 
+                                class="w-32 h-32 mx-auto rounded-full mb-4 border-4 border-blue-500">
+                            <h3 class="text-xl font-bold mb-2"><?php echo $_SESSION['user']['username']; ?></h3>
+                            <p class="text-sm"><?php echo $_SESSION['user']['role']; ?></p>
+                            <p class="mt-2"><?php echo $_SESSION['user']['email']; ?></p>
+                        </div>
+                    </div>
+                </div>
                 
-            </main>
-        </div>
+                <!-- Right Side: Profile Update Form -->
+                <div class="w-full max-w-md bg-gray-800 rounded-xl shadow-lg p-8">
+                    <h2 class="text-3xl font-extrabold text-center text-gray-100 mb-6">Update Profile</h2>
+                    <form action="profile.php" method="POST" enctype="multipart/form-data" class="space-y-6">
+                        <!-- Username -->
+                        <div>
+                            <label for="username" class="block text-sm font-medium text-gray-300">Username</label>
+                            <input 
+                                value="<?php echo $_SESSION['user']['username'] ?>"
+                                type="text" 
+                                id="username" 
+                                name="username" 
+                                class="w-full mt-1 px-4 py-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                placeholder="Enter your username" 
+                                required>
+                        </div>
+
+                        <!-- Email -->
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-300">Email</label>
+                            <input 
+                                value="<?php echo $_SESSION['user']['email'] ?>"
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                class="w-full mt-1 px-4 py-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                placeholder="Enter your email" 
+                                required>
+                        </div>
+
+                        <!-- Password -->
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-300">New Password</label>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                class="w-full mt-1 px-4 py-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                placeholder="Enter a new password" 
+                                required>
+                        </div>
+
+                        <!-- Profile Picture -->
+                        <div>
+                            <label for="profile_picture" class="block text-sm font-medium text-gray-300">Profile Picture</label>
+                            <input 
+                                value="<?php echo $_SESSION['user']['profile_picture_url'] ?>"
+                                type="url" 
+                                id="profile_picture"
+                                placeholder="Enter a new profile picture"  
+                                name="profile_picture" 
+                                class="w-full mt-1 px-4 py-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg cursor-pointer focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button 
+                            type="submit" 
+                            class="w-full px-4 py-3 text-white bg-blue-600 hover:bg-blue-700 font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            Save Changes
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
             <footer class="w-full bg-white text-right p-4">
                 Built by <a target="_blank" href="https://www.linkedin.com/in/yahya-afadisse-236b022a9/" class="underline">Yahya Afadisse</a>.
             </footer>
