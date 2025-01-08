@@ -1,27 +1,5 @@
 <?php
-    require_once __DIR__ . '/../../vendor/autoload.php';
-
-    use config\Database;
-    use Src\users\User;
     session_start();
-
-    $database = new Database("dev_blog");
-    $db = $database->getConnection();
-
-    $user = new User($db);
-
-    $users = $user->readAll();
-
-    $id = isset($_GET['id']) ? htmlspecialchars(strip_tags($_GET['id'])) : null;
-
-    if ($id) {
-        if ($user->delete($id)) {
-            header("Location: utilisateur.php");
-            exit();
-        } else {
-            echo "Échec de la suppression de l'utilisateur.";
-        }
-    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

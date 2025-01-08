@@ -60,6 +60,10 @@
                 <i class="fas fa-file-alt mr-3"></i>
                 articles
             </a>
+            <a href="publication.php" class="flex items-center text-white py-4 pl-6 nav-item">
+                <i class="fas fa-file-alt mr-3"></i>
+                publication
+            </a>
         </nav>
         <a href="#" class="absolute w-full upgrade-btn bottom-0 active-nav-link text-white flex items-center justify-center py-4">
             <i class="fas fa-arrow-circle-up mr-3"></i>
