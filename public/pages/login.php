@@ -9,7 +9,7 @@ $db = $database->getConnection();
 $user = new User($db);
 
 if ($user->isLoggedIn()) {
-    header("Location: home.php");
+    header("Location: ../index.php");
     exit();
 }
 ?>
