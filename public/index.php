@@ -2,11 +2,13 @@
     require_once __DIR__ . '/../vendor/autoload.php';
     use config\Database;
     use Src\articles\Article;
+    use Src\users\User;
     
     $database = new Database("dev_blog");
     $db = $database->getConnection();
     $articleObj = new Article($db);
     $articles = $articleObj->readAll(); 
+    $user = new User($db);
 
 ?>
 <!DOCTYPE html>
@@ -29,13 +31,47 @@
 
       <!-- Signup and Login Buttons -->
       <div class="flex space-x-4">
-        <a href="pages/signup.php" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow transition duration-300">
-          Sign Up
-        </a>
-        <a href="pages/login.php" class="bg-gray-700 hover:bg-gray-800 text-white py-2 px-4 rounded-lg shadow transition duration-300">
-          Login
-        </a>
-      </div>
+          <?php
+          if ($user->isLoggedIn()): ?>
+            <div class="relative">
+            <button 
+              id="userMenuButton"
+              class="flex items-center space-x-2 bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-lg shadow transition duration-300"
+            >
+              <img 
+                src="./assets/images/me.png" 
+                alt="User Profile" 
+                class="w-8 h-8 rounded-full"
+              >
+              <span>Account</span>
+            </button>
+            <div 
+              id="userMenu"
+              class="absolute right-0 mt-2 w-48 bg-gray-800 text-white rounded-lg shadow-lg hidden"
+            >
+              <a 
+                href="pages/account.php" 
+                class="block px-4 py-2 hover:bg-gray-700 rounded-t-lg transition duration-300"
+              >
+                Account
+              </a>
+              <a 
+                href="../src/users/logoutHandler.php" 
+                class="block px-4 py-2 hover:bg-gray-700 rounded-b-lg transition duration-300"
+              >
+                Logout
+              </a>
+            </div>
+          </div>
+          <?php else: ?>
+              <a href="pages/signup.php" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow transition duration-300">
+                Sign Up
+              </a>
+              <a href="pages/login.php" class="bg-gray-700 hover:bg-gray-800 text-white py-2 px-4 rounded-lg shadow transition duration-300">
+                Login
+              </a>
+          <?php endif; ?>
+     </div>
     </div>
   </nav>
 
@@ -99,4 +135,21 @@
             <?php endif; ?>
       </div>
 </body>
+<script>
+  // Dropdown Toggle Script
+  const userMenuButton = document.getElementById('userMenuButton');
+  const userMenu = document.getElementById('userMenu');
+
+  userMenuButton.addEventListener('click', () => {
+    // Toggle the dropdown visibility
+    userMenu.classList.toggle('hidden');
+  });
+
+  // Optional: Close dropdown if clicked outside
+  document.addEventListener('click', (e) => {
+    if (!userMenuButton.contains(e.target) && !userMenu.contains(e.target)) {
+      userMenu.classList.add('hidden');
+    }
+  });
+</script>
 </html>

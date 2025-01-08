@@ -57,7 +57,7 @@ class User {
                 ];
 
                 return true;
-                
+
             } else {
                 return false;
             }
@@ -135,6 +135,14 @@ class User {
             echo "Error: " . $e->getMessage();
             return false;
         }
+    }
+
+    public function isLoggedIn() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+    
+        return isset($_SESSION['user']);
     }
 
     
