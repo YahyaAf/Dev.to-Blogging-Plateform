@@ -75,43 +75,48 @@
     </style>
 </head>
 <body class="bg-gray-100 font-family-karla flex">
-    <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
+<aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
         <div class="p-6">
-            <a href="../index.html" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
+            <a href="index.html" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
         </div>
         <nav class="text-white text-base font-semibold pt-3">
             <a href="home.php" class="flex items-center text-white py-4 pl-6 nav-item">
                 <i class="fas fa-home mr-3"></i>
                 Home
             </a>
-            <a href="utilisateur.php" class="flex items-center text-white py-4 pl-6 nav-item">
-                <i class="fas fa-users mr-3"></i>
-                utilisateurs
-            </a>
-            <a href="categorie.php" class="flex items-center text-white py-4 pl-6 nav-item">
-                <i class="fas fa-th-list mr-3"></i>
-                categories
-            </a>
-            <a href="tag.php" class="flex items-center text-white py-4 pl-6 nav-item">
-                <i class="fas fa-tags mr-3"></i>
-                tags
-            </a>
-            <a href="article.php" class="flex items-center text-white py-4 pl-6 nav-item">
-                <i class="fas fa-file-alt mr-3"></i>
-                articles
-            </a>
-            <a href="publication.php" class="flex items-center text-white py-4 pl-6 nav-item">
-                <i class="fas fa-file-alt mr-3"></i>
-                publication
-            </a>
+            
+            <?php if ($_SESSION['user']['role'] === 'admin') { ?>
+                <a href="utilisateur.php" class="flex items-center text-white py-4 pl-6 nav-item">
+                    <i class="fas fa-users mr-3"></i>
+                    utilisateurs
+                </a>
+                <a href="categorie.php" class="flex items-center text-white py-4 pl-6 nav-item">
+                    <i class="fas fa-th-list mr-3"></i>
+                    categories
+                </a>
+                <a href="tag.php" class="flex items-center text-white py-4 pl-6 nav-item">
+                    <i class="fas fa-tags mr-3"></i>
+                    tags
+                </a>
+                <a href="publication.php" class="flex items-center text-white py-4 pl-6 nav-item">
+                    <i class="fas fa-file-alt mr-3"></i>
+                    publication
+                </a>
+            <?php } ?>
+
+            <?php if ($_SESSION['user']['role'] === 'author') { ?>
+                <a href="article.php" class="flex items-center text-white py-4 pl-6 nav-item">
+                    <i class="fas fa-file-alt mr-3"></i>
+                    articles
+                </a>
+            <?php } ?>
         </nav>
         <a href="#" class="absolute w-full upgrade-btn bottom-0 active-nav-link text-white flex items-center justify-center py-4">
             <i class="fas fa-arrow-circle-up mr-3"></i>
             Upgrade to Pro!
         </a>
     </aside>
-
-    <div class="relative w-full flex flex-col h-screen overflow-y-hidden">
+    <div class="w-full flex flex-col h-screen overflow-y-hidden">
         <!-- Desktop Header -->
         <header class="w-full items-center bg-white py-2 px-6 hidden sm:flex">
             <div class="w-1/2"></div>
@@ -122,7 +127,7 @@
                 <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
                 <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
                     <a href="profile.php" class="block px-4 py-2 account-link hover:text-white">Account</a>
-                    <a href="#" class="block px-4 py-2 account-link hover:text-white">Support</a>
+                    <a href="profile.php" class="block px-4 py-2 account-link hover:text-white">Support</a>
                     <a href="../../src/users/logoutHandler.php" class="block px-4 py-2 account-link hover:text-white">Sign Out</a>
                 </div>
             </div>
@@ -140,10 +145,13 @@
 
             <!-- Dropdown Nav -->
             <nav :class="isOpen ? 'flex': 'hidden'" class="flex flex-col pt-4">
-                <a href="home.html" class="flex items-center text-white py-2 pl-4 nav-item">
-                    <i class="fas fa-home mr-3"></i>
-                    Home
-                </a>
+            <!-- Home link is visible for both admin and author -->
+            <a href="home.php" class="flex items-center text-white py-2 pl-4 nav-item">
+                <i class="fas fa-home mr-3"></i>
+                Home
+            </a>
+
+            <?php if ($_SESSION['user']['role'] === 'admin') { ?>
                 <a href="utilisateur.php" class="flex items-center text-white py-2 pl-4 nav-item">
                     <i class="fas fa-users mr-3"></i>
                     utilisateurs
@@ -156,30 +164,30 @@
                     <i class="fas fa-tags mr-3"></i>
                     tags
                 </a>
+            <?php } ?>
+
+            <?php if ($_SESSION['user']['role'] === 'author') { ?>
                 <a href="article.php" class="flex items-center text-white py-2 pl-4 nav-item">
                     <i class="fas fa-file-alt mr-3"></i>
                     articles
                 </a>
-                <a href="publication.php" class="flex items-center text-white py-2 pl-4 nav-item">
-                    <i class="fas fa-file-alt mr-3"></i>
-                    publication
-                </a>
-                <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                    <i class="fas fa-cogs mr-3"></i>
-                    Support
-                </a>
-                <a href="profile.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                    <i class="fas fa-user mr-3"></i>
-                    My Account
-                </a>
-                <a href="../../src/users/logoutHandler.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                    <i class="fas fa-sign-out-alt mr-3"></i>
-                    Sign Out
-                </a>
-                <button class="w-full bg-white cta-btn font-semibold py-2 mt-3 rounded-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
-                    <i class="fas fa-arrow-circle-up mr-3"></i> Upgrade to Pro!
-                </button>
-            </nav>
+            <?php } ?>
+            <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                <i class="fas fa-cogs mr-3"></i>
+                Support
+            </a>
+            <a href="profile.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                <i class="fas fa-user mr-3"></i>
+                My Account
+            </a>
+            <a href="../../src/users/logoutHandler.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                <i class="fas fa-sign-out-alt mr-3"></i>
+                Sign Out
+            </a>
+            <button class="w-full bg-white cta-btn font-semibold py-2 mt-3 rounded-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
+                <i class="fas fa-arrow-circle-up mr-3"></i> Upgrade to Pro!
+            </button>
+        </nav>
             <!-- <button class="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
                 <i class="fas fa-plus mr-3"></i> New Report
             </button> -->
