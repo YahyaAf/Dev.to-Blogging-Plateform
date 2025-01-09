@@ -6,6 +6,7 @@
     use Src\articles\Article;
 
     session_start();
+    $userId = $_SESSION['user']['id'];
 
     $database = new Database("dev_blog");
     $db = $database->getConnection();
@@ -23,7 +24,7 @@
     $tags = $tag->read();
 
     $articleObj = new Article($db);
-    $articles = $articleObj->readAll(); 
+    $articles = $articleObj->readByAuthor($userId); 
 
     if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'author') {
         header('Location: erreur404.php');
@@ -301,6 +302,7 @@
                         <th class="px-4 py-2 text-left text-white">Category</th>
                         <th class="px-4 py-2 text-left text-white">Tags</th> 
                         <th class="px-4 py-2 text-left text-white">Scheduled Date</th>
+                        <th class="px-4 py-2 text-left text-white">Author</th>
                         <th class="px-4 py-2 text-left text-white">Actions</th>
                     </tr>
                 </thead>
@@ -317,6 +319,7 @@
                                     <?php echo htmlspecialchars($article['tags'] ?: 'No tags'); ?>
                                 </td>
                                 <td class="px-4 py-2 text-gray-200"><?php echo htmlspecialchars($article['scheduled_date']); ?></td>
+                                <td class="px-4 py-2 text-gray-200"><?php echo htmlspecialchars($article['author_name']); ?></td>
                                 <td class="px-4 py-2">
                                     <a href="../../src/articles/articleUpdate.php?id=<?php echo $article['id']; ?>" class="text-yellow-500 hover:text-yellow-300 mr-2">Update</a>
                                     <a href="../../src/articles/articleHandler.php?id=<?php echo $article['id']; ?>" class="text-red-500 hover:text-red-300" onclick="return confirm('Are you sure you want to delete this article?')">Delete</a>

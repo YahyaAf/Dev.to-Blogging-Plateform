@@ -90,6 +90,32 @@ class Article {
         }
     }
 
+    public function readByAuthor($authorId) {
+        try {
+            $stmt = $this->pdo->prepare("
+                SELECT 
+                    a.*, 
+                    c.name AS category_name, 
+                    u.username AS author_name, 
+                    GROUP_CONCAT(t.name) AS tags
+                FROM articles a
+                LEFT JOIN categories c ON a.category_id = c.id
+                LEFT JOIN users u ON a.author_id = u.id
+                LEFT JOIN article_tags at ON a.id = at.article_id
+                LEFT JOIN tags t ON at.tag_id = t.id
+                WHERE a.author_id = :author_id
+                GROUP BY a.id
+            ");
+            $stmt->execute(['author_id' => $authorId]);
+            $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            return $articles ?: []; // Return an empty array if no articles are found
+        } catch (PDOException $e) {
+            error_log("Erreur lors de la récupération des articles de l'auteur : " . $e->getMessage());
+            return [];
+        }
+    }
+    
     public function update($id, $data) {
         try {
             if (empty($data['title']) || empty($data['content']) || empty($data['category_id'])) {
