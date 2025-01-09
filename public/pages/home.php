@@ -235,21 +235,21 @@
 
                     <!-- Most Read Articles Card -->
                     <div class="w-11/12 max-w-4xl rounded-lg overflow-hidden shadow-xl bg-gradient-to-r from-gray-900 via-gray-800 to-black text-white">
-    <div class="px-6 py-4">
-        <div class="font-bold text-2xl mb-4 text-center">Most Read Articles</div>
-        <div class="space-y-4">
-            <?php foreach ($topArticles as $article) : ?>
-                <div class="flex items-center justify-between border-b border-gray-700 pb-4">
-                    <div class="text-lg font-semibold"><?= htmlspecialchars($article['title']) ?></div>
-                    <div class="text-sm text-gray-400">Published on: <?= htmlspecialchars($article['scheduled_date']) ?></div>
-                    <div class="text-gray-300 text-sm">
-                        <div>Views: <span class="font-semibold"><?= htmlspecialchars($article['views']) ?></span></div>
+                        <div class="px-6 py-4">
+                            <div class="font-bold text-2xl mb-4 text-center">Most Read Articles</div>
+                            <div class="space-y-4">
+                                <?php foreach ($topArticles as $article) : ?>
+                                    <div class="flex items-center justify-between border-b border-gray-700 pb-4">
+                                        <div class="text-lg font-semibold"><?= htmlspecialchars($article['title']) ?></div>
+                                        <div class="text-sm text-gray-400">Published on: <?= htmlspecialchars($article['scheduled_date']) ?></div>
+                                        <div class="text-gray-300 text-sm">
+                                            <div>Views: <span class="font-semibold"><?= htmlspecialchars($article['views']) ?></span></div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</div>
                 </div>
 
             </main>
