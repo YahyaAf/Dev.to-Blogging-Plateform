@@ -258,5 +258,15 @@ class Article {
             return [];
         }
     }
+
+        public function incrementViews($id)
+        {
+        try {
+            $stmt = $this->pdo->prepare("UPDATE articles SET views = views + 1 WHERE id = :id");
+            $stmt->execute(['id' => $id]);
+        } catch (PDOException $e) {
+            error_log("Error incrementing views: " . $e->getMessage());
+        }
+    }
     
 }

@@ -121,7 +121,7 @@
                             <span class="font-semibold text-gray-300">Scheduled:</span> <?php echo htmlspecialchars($article['scheduled_date']); ?>
                         </p>
                         <div class="flex justify-end">
-                            <a href="pages/detailsArticle.php?id=<?php echo $article['id']; ?>" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-full shadow-md font-semibold transition-all duration-300 transform hover:scale-105">
+                            <a href="../src/articles/viewArticle.php?id=<?php echo $article['id']; ?>" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-full shadow-md font-semibold transition-all duration-300 transform hover:scale-105">
                                 View
                             </a>
                         </div>
