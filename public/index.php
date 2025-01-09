@@ -101,7 +101,7 @@
             </div>
         </div>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6 mx-auto" style="max-width: 90%;">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6 mx-auto mb-5" style="max-width: 90%;">
     <?php if (!empty($articles)): ?>
         <?php foreach ($articles as $article): ?>
             <?php if ($article['status'] === 'published'): ?>
@@ -121,7 +121,7 @@
                             <span class="font-semibold text-gray-300">Scheduled:</span> <?php echo htmlspecialchars($article['scheduled_date']); ?>
                         </p>
                         <div class="flex justify-end">
-                            <a href="" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-full shadow-md font-semibold transition-all duration-300 transform hover:scale-105">
+                            <a href="pages/detailsArticle.php?id=<?php echo $article['id']; ?>" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-full shadow-md font-semibold transition-all duration-300 transform hover:scale-105">
                                 View
                             </a>
                         </div>
@@ -135,6 +135,18 @@
                 </div>
             <?php endif; ?>
       </div>
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-gray-800 via-gray-900 to-black p-6 mt-auto">
+      <div class="container mx-auto text-center text-white">
+        <div class="flex justify-center space-x-6 mb-4">
+          <a href="#" class="hover:text-blue-500 transition duration-300">About Us</a>
+          <a href="#" class="hover:text-blue-500 transition duration-300">Privacy Policy</a>
+          <a href="#" class="hover:text-blue-500 transition duration-300">Terms of Service</a>
+        </div>
+        <p class="text-sm text-gray-400">&copy; 2025 Dev.to-Blogging-Platform. All rights reserved.</p>
+      </div>
+    </footer>
+
 </body>
 <script>
   // Dropdown Toggle Script
