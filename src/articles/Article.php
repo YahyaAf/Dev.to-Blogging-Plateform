@@ -294,5 +294,34 @@ class Article {
             error_log("Error incrementing views: " . $e->getMessage());
         }
     }
+
+    public function search($query) {
+        try {
+            $stmt = $this->pdo->prepare("
+                SELECT 
+                    a.*, 
+                    c.name AS category_name, 
+                    u.username AS author_name, 
+                    GROUP_CONCAT(t.name) AS tags
+                FROM articles a
+                LEFT JOIN categories c ON a.category_id = c.id
+                LEFT JOIN users u ON a.author_id = u.id
+                LEFT JOIN article_tags at ON a.id = at.article_id
+                LEFT JOIN tags t ON at.tag_id = t.id
+                WHERE a.title LIKE :query
+                   OR a.content LIKE :query
+                   OR t.name LIKE :query
+                GROUP BY a.id
+            ");
+            $stmt->execute(['query' => '%' . $query . '%']);
+            $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            return $articles ?: []; 
+        } catch (PDOException $e) {
+            error_log("Erreur lors de la recherche des articles : " . $e->getMessage());
+            return [];
+        }
+    }
+    
     
 }

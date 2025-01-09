@@ -1,17 +1,26 @@
 <?php
-    require_once __DIR__ . '/../vendor/autoload.php';
-    use config\Database;
-    use Src\articles\Article;
-    use Src\users\User;
-    session_start();
-    
-    $database = new Database("dev_blog");
-    $db = $database->getConnection();
-    $articleObj = new Article($db);
-    $articles = $articleObj->readAll(); 
-    $user = new User($db);
+require_once __DIR__ . '/../vendor/autoload.php';
+use config\Database;
+use Src\articles\Article;
+use Src\users\User;
 
+session_start();
+
+$database = new Database("dev_blog");
+$db = $database->getConnection();
+$articleObj = new Article($db);
+$user = new User($db);
+
+// Default: Display all articles
+$articles = $articleObj->readAll();
+
+// Check if a search query was submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['search'])) {
+    $searchQuery = htmlspecialchars(trim($_POST['search'])); // Sanitize user input
+    $articles = $articleObj->search($searchQuery);
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -79,28 +88,41 @@
     <!-- Card Section -->
     <div class="flex justify-center mt-8">
       <div class="bg-gradient-to-r from-gray-800 via-gray-900 to-black rounded-lg shadow-2xl p-8 max-w-4xl text-center text-white">
-            <!-- Header -->
-            <h1 class="text-4xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-              Welcome to Dev.to-Blogging-Platform
-            </h1>
+        <!-- Header -->
+        <h1 class="text-4xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+          Welcome to Dev.to-Blogging-Platform
+        </h1>
 
-            <!-- Content Section -->
-            <div class="flex flex-col md:flex-row items-center md:items-start justify-between space-y-6 md:space-y-0">
-                <!-- Text Section -->
-                <div>
-                  <p class="text-gray-300 text-lg leading-relaxed">
-                    Dev.to-Blogging-Platform is your go-to destination for creating and sharing high-quality blogs. 
-                    Explore insightful content, connect with a community of passionate writers, and grow your audience!
-                  </p>
-                </div>
-            </div>
-            <div class="mt-6">
-              <a href="" class="bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg shadow-md text-lg font-semibold transition duration-300">
-                Get Started
-              </a>
-            </div>
+        <!-- Content Section -->
+        <div class="flex flex-col md:flex-row items-center md:items-start justify-between space-y-6 md:space-y-0">
+          <!-- Text Section -->
+          <div>
+            <p class="text-gray-300 text-lg leading-relaxed">
+              Dev.to-Blogging-Platform is your go-to destination for creating and sharing high-quality blogs. 
+              Explore insightful content, connect with a community of passionate writers, and grow your audience!
+            </p>
+          </div>
         </div>
+        
+        <!-- Search Section -->
+        <div class="mt-6 flex justify-center items-center space-x-4">
+          <form method="POST" class="flex space-x-4 w-full md:w-2/3">
+            <input 
+              type="text" 
+              name="search" 
+              placeholder="Search for articles..." 
+              class="py-3 px-4 rounded-lg shadow-md text-gray-900 text-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            />
+            <button 
+              type="submit" 
+              class="bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg shadow-md text-lg font-semibold transition duration-300">
+              Search
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6 mx-auto mb-5" style="max-width: 90%;">
     <?php if (!empty($articles)): ?>
         <?php foreach ($articles as $article): ?>
@@ -149,16 +171,14 @@
 
 </body>
 <script>
-  // Dropdown Toggle Script
+
   const userMenuButton = document.getElementById('userMenuButton');
   const userMenu = document.getElementById('userMenu');
 
   userMenuButton.addEventListener('click', () => {
-    // Toggle the dropdown visibility
     userMenu.classList.toggle('hidden');
   });
 
-  // Optional: Close dropdown if clicked outside
   document.addEventListener('click', (e) => {
     if (!userMenuButton.contains(e.target) && !userMenu.contains(e.target)) {
       userMenu.classList.add('hidden');
