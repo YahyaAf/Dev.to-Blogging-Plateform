@@ -207,4 +207,15 @@ class Article {
             return [];
         }
     }
+
+    public function countArticles() {
+        try {
+            $stmt = $this->pdo->query("SELECT COUNT(*) AS article_count FROM articles");
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result['article_count'];
+        } catch (PDOException $e) {
+            error_log("Erreur lors du comptage des articles : " . $e->getMessage());
+            return 0; 
+        }
+    }
 }

@@ -77,6 +77,15 @@ class CRUD {
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function count() {
+        $query = "SELECT COUNT(*) AS record_count FROM " . $this->table_name;
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        return $result['record_count'];
+    }
 }
 
 ?>

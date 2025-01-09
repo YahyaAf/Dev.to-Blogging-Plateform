@@ -42,6 +42,10 @@ class Tag {
         $this->crud->id = $this->id;
         return $this->crud->delete();
     }
+    
+    public function countTags() {
+        return $this->crud->count();
+    }
 }
 
 ?>

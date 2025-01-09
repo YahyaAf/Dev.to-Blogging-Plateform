@@ -145,6 +145,20 @@ class User {
         return isset($_SESSION['user']);
     }
 
+    public function countUsers() {
+        try {
+            $sql = "SELECT COUNT(*) AS user_count FROM {$this->table}";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result['user_count'];
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return 0;
+        }
+    }
+
     
 }
 ?>

@@ -2,6 +2,8 @@
 namespace Src\categories;
 
 use Src\Crud\CRUD;
+use PDO;
+
 
 class Category {
     private $crud;
@@ -42,6 +44,12 @@ class Category {
         $this->crud->id = $this->id;
         return $this->crud->delete();
     }
+
+    public function countCategories() {
+        return $this->crud->count();
+    }
+
+    
 }
 
 ?>
