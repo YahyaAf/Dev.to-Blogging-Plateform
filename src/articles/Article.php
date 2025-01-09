@@ -218,4 +218,45 @@ class Article {
             return 0; 
         }
     }
+
+    public function getTopAuthors() {
+        try {
+            $stmt = $this->pdo->prepare("
+                SELECT 
+                    u.username AS author_name, 
+                    COUNT(a.id) AS article_count, 
+                    SUM(a.views) AS total_views
+                FROM users u
+                LEFT JOIN articles a ON u.id = a.author_id
+                GROUP BY u.id
+                ORDER BY article_count DESC
+                LIMIT 3
+            ");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Erreur lors de la récupération des auteurs top : " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function getTopArticlesByViews() {
+        try {
+            $stmt = $this->pdo->prepare("
+                SELECT 
+                    title, 
+                    DATE(scheduled_date) AS scheduled_date, 
+                    views
+                FROM articles
+                ORDER BY views DESC
+                LIMIT 3
+            ");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Erreur lors de la récupération des articles top par vues : " . $e->getMessage());
+            return [];
+        }
+    }
+    
 }

@@ -23,6 +23,12 @@
     $tagCount = $tag->countTags();
     $user = new User($db);
     $userCount = $user->countUsers();
+
+    // affiche top author
+    $topAuthors = $article->getTopAuthors();
+
+    // affiche top articles 
+    $topArticles = $article->getTopArticlesByViews();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -205,15 +211,58 @@
                     </div>
                 </div>
 
-    
-            </main>    
-    
+                <div class="flex justify-between mt-8 gap-5">
+                    <!-- Top Authors Card -->
+                    <div class="w-11/12 max-w-4xl rounded-lg overflow-hidden shadow-xl bg-gradient-to-r from-gray-900 via-gray-800 to-black text-white">
+                        <div class="px-6 py-4">
+                            <div class="font-bold text-2xl mb-4 text-center">Top Authors</div>
+                            <div class="space-y-4">
+                                <?php foreach ($topAuthors as $author): ?>
+                                    <div>
+                                        <div class="flex items-center justify-between ">
+                                            <div class="text-lg font-semibold"><?php echo htmlspecialchars($author['author_name']); ?></div>
+                                            <div class="text-sm text-gray-400">Author</div>
+                                        </div>
+                                        <div class="text-gray-300 text-sm border-b border-gray-700 pb-4 flex gap-3">
+                                            <div>Articles: <span class="font-semibold"><?php echo $author['article_count']; ?></span></div>
+                                            <div>Views: <span class="font-semibold"><?php echo $author['total_views']; ?></span></div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Most Read Articles Card -->
+                    <div class="w-11/12 max-w-4xl rounded-lg overflow-hidden shadow-xl bg-gradient-to-r from-gray-900 via-gray-800 to-black text-white">
+    <div class="px-6 py-4">
+        <div class="font-bold text-2xl mb-4 text-center">Most Read Articles</div>
+        <div class="space-y-4">
+            <?php foreach ($topArticles as $article) : ?>
+                <div class="flex items-center justify-between border-b border-gray-700 pb-4">
+                    <div class="text-lg font-semibold"><?= htmlspecialchars($article['title']) ?></div>
+                    <div class="text-sm text-gray-400">Published on: <?= htmlspecialchars($article['scheduled_date']) ?></div>
+                    <div class="text-gray-300 text-sm">
+                        <div>Views: <span class="font-semibold"><?= htmlspecialchars($article['views']) ?></span></div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
+                </div>
+
+            </main>
+            
             <footer class="w-full bg-white text-right p-4">
                 Built by <a target="_blank" href="https://www.linkedin.com/in/yahya-afadisse-236b022a9/" class="underline">Yahya Afadisse</a>.
             </footer>
         </div>
-        
-    </div>
+
+
+
+
+
 
     <!-- AlpineJS -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
